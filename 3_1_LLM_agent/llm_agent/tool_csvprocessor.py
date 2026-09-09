@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-class CSVProcessor_tool:
+class CSVProcessorTool:
 
     name = "csvprocessor"
     description = (
