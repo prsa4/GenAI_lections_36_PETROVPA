@@ -180,27 +180,29 @@ class LLMAgent:
         prompt = f"""
         Based on the following conversation log, provide a direct and helpful answer to the user's original question.
         Be concise and use the information from the tool results to support your answer.
-
+        Explicitly mention all important names and entities from the original user question in your answer.
+    
         Original User Question: {user_query}
-
+    
         Conversation Log:
         {chr(10).join([msg['content'] for msg in self.conversation_history])}
         """
-
+        
         payload = {
             "model": self.model,
             "messages": [{"role": "user", "content": prompt}]
         }
-
+        
         if self.local:
             payload["stream"] = False
-
+        
         try:
             response_data = self._make_api_request(payload)
             final_text = response_data["choices"][0]["message"]["content"]
             return final_text
         except Exception as e:
             return f"Ошибка при генерации финального ответа. Детали: {e}"
+        
 
     def process_query(self, query: str) -> str:
         """
